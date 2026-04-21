@@ -1,529 +1,751 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-  <title>✦ Meskerem Primary | School Worksheet Bank✦</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meskerem Primary | Worksheet Bank</title>
 
-  <!-- Fonts & Icons (clean, modern) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  
-  <!-- Supabase (unchanged) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at 10% 20%, #e6f0ff, #d4e4fc);
-      min-height: 100vh;
-      padding: 24px 16px 40px;
-      /* subtle 3D depth layer */
-      perspective: 1200px;
-    }
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* main container with glassmorphism + 3D lift */
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-      transform-style: preserve-3d;
-    }
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
 
-    /* HD header with 3D text effect */
-    .school-header {
-      text-align: center;
-      margin-bottom: 30px;
-      position: relative;
-    }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-    h1 {
-      font-weight: 800;
-      font-size: 3.2rem;
-      letter-spacing: -0.02em;
-      background: linear-gradient(145deg, #0a2e5e, #1b4f8a, #2a6cb8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 10px 25px rgba(0, 20, 60, 0.25), 0 2px 4px rgba(255, 255, 255, 0.5);
-      transform: translateZ(8px);
-      display: inline-block;
-      padding: 0 10px;
-    }
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  animation: slideDown 0.5s ease;
+}
 
-    .school-header i {
-      font-size: 2.6rem;
-      color: #1e4f8a;
-      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.1));
-      margin: 0 6px;
-      transform: translateZ(12px);
-    }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    /* 3D card base — real depth */
-    .card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border-radius: 36px;
-      padding: 28px 26px;
-      margin: 28px 0;
-      box-shadow: 
-        0 25px 40px -10px rgba(0, 20, 50, 0.25),
-        0 10px 20px -8px rgba(0,0,0,0.15),
-        inset 0 1px 0 rgba(255,255,255,0.8),
-        inset 0 -2px 4px rgba(0,0,0,0.02);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      transform: rotateX(0.5deg) translateY(-2px);
-      transition: all 0.25s ease;
-    }
+h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
 
-    .card:hover {
-      box-shadow: 
-        0 30px 50px -12px #0a2e5e33,
-        0 15px 25px -8px #0b2b4466,
-        inset 0 1px 0 #fff;
-      transform: rotateX(0.2deg) translateY(-5px);
-      background: rgba(255, 255, 255, 0.92);
-    }
+h1 i {
+  font-size: 2.5rem;
+}
 
-    /* section headings with 3D flair */
-    h3 {
-      font-weight: 700;
-      font-size: 1.8rem;
-      margin-bottom: 22px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #0b2b44;
-      text-shadow: 0 3px 5px rgba(0,0,0,0.05);
-      border-bottom: 2px solid rgba(27, 110, 194, 0.2);
-      padding-bottom: 14px;
-    }
+.subtitle {
+  color: rgba(255,255,255,0.9);
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
 
-    h3 i {
-      font-size: 1.8rem;
-      color: #1b6ec2;
-      filter: drop-shadow(0 4px 4px rgba(0,70,150,0.15));
-    }
+/* Cards */
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  animation: fadeIn 0.6s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
 
-    /* inputs & selects — modern, chunky, tactile */
-    .input-group {
-      margin-bottom: 18px;
-    }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    input, select {
-      width: 100%;
-      padding: 16px 18px;
-      border-radius: 24px;
-      border: 1.5px solid rgba(27, 110, 194, 0.25);
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(8px);
-      font-size: 1rem;
-      font-weight: 500;
-      color: #0a2540;
-      box-shadow: inset 0 5px 8px rgba(0,0,0,0.02), 0 3px 8px rgba(27,110,194,0.05);
-      transition: all 0.2s;
-      outline: none;
-      font-family: 'Inter', sans-serif;
-    }
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.8rem;
+}
 
-    input:focus, select:focus {
-      border-color: #1b6ec2;
-      background: #ffffff;
-      box-shadow: 0 0 0 5px rgba(27, 110, 194, 0.15), inset 0 2px 5px #fff;
-      transform: scale(1.01);
-    }
+h2 i {
+  color: #667eea;
+}
 
-    /* file input special */
-    input[type="file"] {
-      padding: 13px 16px;
-      background: #f1f9ff;
-      border: 2px dashed #1b6ec2;
-      color: #0b2b44;
-      font-weight: 500;
-      cursor: pointer;
-    }
+/* Forms */
+.form-group {
+  margin-bottom: 20px;
+}
 
-    input[type="file"]::file-selector-button {
-      background: #1b6ec2;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 40px;
-      font-weight: 600;
-      margin-right: 16px;
-      cursor: pointer;
-      box-shadow: 0 6px 12px #1b6ec260;
-      transition: all 0.2s;
-    }
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+}
 
-    input[type="file"]::file-selector-button:hover {
-      background: #0f5aa3;
-      box-shadow: 0 8px 14px #0f5aa380;
-      transform: translateY(-2px);
-    }
+input, select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s;
+  font-family: 'Inter', sans-serif;
+}
 
-    /* Buttons — 3D press effect, vibrant */
-    button {
-      background: linear-gradient(145deg, #1f7ad6, #1a60b0);
-      color: white;
-      border: none;
-      padding: 16px 22px;
-      border-radius: 50px;
-      width: 100%;
-      margin-top: 14px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      letter-spacing: 0.3px;
-      cursor: pointer;
-      box-shadow: 
-        0 15px 20px -6px #1b6ec280,
-        0 4px 8px rgba(0,0,0,0.1),
-        inset 0 1px 2px rgba(255,255,255,0.6);
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.15s ease;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transform: translateZ(2px);
-    }
+input:focus, select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
 
-    button i {
-      font-size: 1.3rem;
-      filter: drop-shadow(0 2px 2px black(0,0,0,0.1));
-    }
+input[type="file"] {
+  padding: 12px;
+  cursor: pointer;
+}
 
-    button:hover {
-      background: linear-gradient(145deg, #2a88ec, #1560c0);
-      box-shadow: 0 18px 28px -8px #0f5aa3, 0 6px 10px #0000001a, inset 0 1px 3px #ffffffb0;
-      transform: translateY(-3px) scale(1.01) translateZ(5px);
-    }
+input[type="file"]::file-selector-button {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: 600;
+}
 
-    button:active {
-      transform: translateY(2px) scale(0.98);
-      box-shadow: 0 8px 14px #0b2b4466, inset 0 2px 5px #0000001a;
-    }
+/* Buttons */
+.btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
 
-    /* file list — each item 3D cardlet */
-    .file {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(12px);
-      padding: 18px 20px;
-      border-radius: 24px;
-      margin-top: 14px;
-      box-shadow: 
-        0 12px 18px -10px rgba(0,0,0,0.1),
-        inset 0 1px 3px #ffffff,
-        inset 0 -2px 4px rgba(0,0,0,0.02);
-      border: 1px solid rgba(255,255,255,0.9);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      transition: all 0.2s;
-      transform: translateZ(3px);
-    }
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+}
 
-    .file:hover {
-      background: #ffffffd6;
-      box-shadow: 0 18px 25px -12px #0b2b4433, inset 0 0 0 2px #ffffff;
-      transform: translateY(-2px) translateZ(6px);
-    }
+.btn:active {
+  transform: translateY(0);
+}
 
-    .file-info {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+.btn-secondary {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 10px 20px rgba(240, 147, 251, 0.3);
+}
 
-    .file-info b {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #0b2b44;
-    }
+.btn-danger {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  box-shadow: 0 10px 20px rgba(250, 112, 154, 0.3);
+}
 
-    .file-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 20px;
-      color: #1f4973;
-      font-weight: 500;
-    }
+/* File Grid */
+.file-grid {
+  display: grid;
+  gap: 15px;
+  margin-top: 20px;
+}
 
-    .file-meta i {
-      margin-right: 6px;
-      color: #1b6ec2;
-    }
+.file-card {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.3s;
+  border: 1px solid #e0e0e0;
+  animation: fadeIn 0.5s ease;
+}
 
-    .file-actions {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
+.file-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border-color: #667eea;
+}
 
-    .file-actions a, .file-actions button {
-      all: unset;
-      background: #1b6ec2;
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: white;
-      box-shadow: 0 8px 14px #1b6ec250;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid #ffffff40;
-      transition: 0.15s;
-      text-decoration: none;
-    }
+.file-header {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
 
-    .file-actions a {
-      background: #0f5aa3;
-    }
+.file-icon {
+  font-size: 2rem;
+  color: #667eea;
+}
 
-    .file-actions button {
-      background: #b13e3e;
-      box-shadow: 0 8px 12px #b13e3e60;
-    }
+.file-info {
+  flex: 1;
+}
 
-    .file-actions a:hover, .file-actions button:hover {
-      transform: scale(1.05) translateY(-2px);
-      filter: brightness(1.1);
-    }
+.file-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 5px;
+}
 
-    /* admin panel distinctive */
-    .admin.card {
-      background: linear-gradient(145deg, #fff5f5, #ffecec);
-      border-left: 10px solid #c93e3e;
-      box-shadow: 0 20px 30px -10px #a00b0b1a, inset 0 0 0 1px #ffdbdb;
-    }
+.file-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  color: #666;
+  font-size: 0.9rem;
+  margin: 10px 0;
+}
 
-    .admin h3 i {
-      color: #b13e3e;
-    }
+.file-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
-    #adminArea {
-      margin-top: 24px;
-      padding-top: 16px;
-      border-top: 2px dashed #b13e3e50;
-    }
+.file-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
 
-    #adminArea p {
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
+.btn-small {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  flex: 1;
+}
 
-    /* footer with depth */
-    footer {
-      text-align: center;
-      margin-top: 48px;
-      font-weight: 500;
-      color: #1e4f7a;
-      text-shadow: 0 2px 5px white;
-      transform: translateZ(5px);
-      letter-spacing: 0.3px;
-    }
+/* Admin Section */
+.admin-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px dashed #e0e0e0;
+}
 
-    /* responsiveness & HD polish */
-    @media (max-width: 600px) {
-      h1 { font-size: 2.4rem; }
-      .file { flex-direction: column; align-items: flex-start; gap: 15px; }
-      .file-actions { width: 100%; justify-content: flex-end; }
-    }
+.admin-toggle {
+  background: none;
+  border: 2px dashed #999;
+  color: #666;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+}
 
-    /* extra 3D floating effect for containers */
-    .container::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 50% 0%, #ffffff30, transparent 70%);
-      pointer-events: none;
-      z-index: -1;
-    }
+.admin-toggle:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
 
-    /* glowing admin unlock */
-    .admin .fa-shield {
-      filter: drop-shadow(0 0 8px gold);
-    }
-  </style>
+.admin-panel {
+  display: none;
+  margin-top: 20px;
+}
+
+.admin-panel.active {
+  display: block;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 5px;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.loading i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #667eea;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  margin-bottom: 15px;
+  opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  .file-meta { flex-direction: column; gap: 5px; }
+  .file-actions { flex-direction: column; }
+}
+
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideIn 0.3s ease;
+  z-index: 1000;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.toast.success { border-left: 4px solid #4caf50; }
+.toast.error { border-left: 4px solid #f44336; }
+.toast i { font-size: 1.5rem; }
+.toast.success i { color: #4caf50; }
+.toast.error i { color: #f44336; }
+</style>
 </head>
-
 <body>
 
 <div class="container">
-
-  <!-- HD 3D Header -->
-  <div class="school-header">
-    <i class="fas fa-school"></i>
-    <h1>MESKEREM | PRIMARY  SCHOOL</h1>
-    <i class="fas fa-pencil-alt"></i>
-    <div style="font-weight: 600; letter-spacing: 2px; color: #1e4f7a; margin-top: -8px; text-shadow: 0 2px 5px white;">✦ Teachers WORKSHEET Bank✦</div>
+  <!-- Header -->
+  <div class="header">
+    <h1>
+      <i class="fas fa-school"></i>
+      Meskerem Primary
+      <i class="fas fa-book"></i>
+    </h1>
+    <div class="subtitle">Worksheet Bank • Teacher Portal</div>
   </div>
 
-  <!-- TEACHER PANEL (unchanged functionality) -->
+  <!-- Upload Card -->
   <div class="card">
-    <h3><i class="fas fa-cloud-upload-alt"></i> Upload new worksheet</h3>
-    <div class="input-group">
-      <input id="teacher" placeholder="👩‍🏫 Teacher full name" autocomplete="off">
+    <h2>
+      <i class="fas fa-cloud-upload-alt"></i>
+      Upload New Worksheet
+    </h2>
+    
+    <div class="form-group">
+      <label><i class="fas fa-user"></i> Teacher Name</label>
+      <input type="text" id="teacherName" placeholder="Enter your full name" autocomplete="off">
     </div>
-    <div class="input-group">
-      <input id="grade" placeholder="📚 Grade (e.g., 3A, 5B)">
+
+    <div class="form-group">
+      <label><i class="fas fa-graduation-cap"></i> Grade Level</label>
+      <select id="gradeLevel">
+        <option value="">Select Grade</option>
+        <option value="Grade 1">Grade 1</option>
+        <option value="Grade 2">Grade 2</option>
+        <option value="Grade 3">Grade 3</option>
+        <option value="Grade 4">Grade 4</option>
+        <option value="Grade 5">Grade 5</option>
+        <option value="Grade 6">Grade 6</option>
+        <option value="Grade 7">Grade 7</option>
+        <option value="Grade 8">Grade 8</option>
+      </select>
     </div>
-    <div class="input-group">
-      <input id="subject" placeholder="📐 Subject / Topic">
+
+    <div class="form-group">
+      <label><i class="fas fa-book-open"></i> Subject</label>
+      <input type="text" id="subject" placeholder="e.g., Mathematics, English, Science">
     </div>
-    <div class="input-group">
-      <input type="file" id="file" accept=".pdf,.doc,.docx,.jpg,.png,.pptx">
+
+    <div class="form-group">
+      <label><i class="fas fa-file"></i> Select File</label>
+      <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.txt">
     </div>
-    <button onclick="upload()"><i class="fas fa-rocket"></i> Upload to vault</button>
+
+    <button class="btn" onclick="uploadWorksheet()">
+      <i class="fas fa-upload"></i>
+      Upload Worksheet
+    </button>
   </div>
 
-  <!-- FILE LIST (exactly same logic) -->
+  <!-- Worksheets List Card -->
   <div class="card">
-    <h3><i class="fas fa-folder-open"></i> Available worksheets</h3>
-    <div id="list"></div>
-  </div>
-
-  <!-- ADMIN PANEL (same functionality, elevated design) -->
-  <div class="card admin">
-    <h3><i class="fas fa-shield-alt"></i> Admin strongroom</h3>
-    <div class="input-group">
-      <input type="password" id="adminPass" placeholder="🔐 Admin password">
+    <h2>
+      <i class="fas fa-folder-open"></i>
+      Available Worksheets
+      <span style="margin-left: auto; font-size: 0.9rem;">
+        <i class="fas fa-sync-alt" onclick="loadWorksheets()" style="cursor: pointer;"></i>
+      </span>
+    </h2>
+    
+    <div id="worksheetsList">
+      <div class="loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading worksheets...</p>
+      </div>
     </div>
-    <button onclick="loginAdmin()"><i class="fas fa-lock-open"></i> Unlock panel</button>
 
-    <div id="adminArea" style="display:none;">
-      <p style="display: flex; align-items: center; gap: 10px;"><i class="fas fa-database" style="font-size: 1.8rem;"></i> Total files stored: <b id="count" style="font-size: 2rem; margin-left: 6px;">0</b></p>
-      <button onclick="wipeAll()" style="background: #b13e3e; box-shadow: 0 12px 18px -6px #a00;"><i class="fas fa-trash-alt"></i> Wipe all worksheets</button>
+    <!-- Admin Section -->
+    <div class="admin-section">
+      <button class="admin-toggle" onclick="toggleAdmin()">
+        <i class="fas fa-shield-alt"></i>
+        Admin Panel
+      </button>
+      
+      <div class="admin-panel" id="adminPanel">
+        <h3 style="margin-bottom: 20px;">
+          <i class="fas fa-crown"></i>
+          Administrator Controls
+        </h3>
+        
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-number" id="totalFiles">0</div>
+            <div class="stat-label">Total Files</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="totalTeachers">0</div>
+            <div class="stat-label">Teachers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="totalGrades">0</div>
+            <div class="stat-label">Grades</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-key"></i> Admin Password</label>
+          <input type="password" id="adminPassword" placeholder="Enter admin password">
+        </div>
+
+        <button class="btn btn-danger" onclick="clearAllWorksheets()">
+          <i class="fas fa-trash-alt"></i>
+          Clear All Worksheets
+        </button>
+      </div>
     </div>
   </div>
-
-  <footer>
-    <i class="fas fa-crown" style="opacity: 0.7;"></i> Meskerem Primary · Worksheet Bank — © 2026 · designed by Zenaneh · <i class="fas fa-cube" style="transform: rotate(15deg);"></i>
-  </footer>
 </div>
 
 <script>
-  // --- ALL FUNCTIONALITY IDENTICAL TO ORIGINAL --- 
-  // (Supabase init, upload, loadFiles, deleteFile, loginAdmin, wipeAll)
-  // --- DO NOT CHANGE ANY BEHAVIOR, ONLY UI ENHANCED ---
+// SUPABASE CONFIGURATION
+const SUPABASE_URL = 'https://hrukqjwbglnpbbmercms.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhydWtxandiZ2xucGJibWVyY21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNjU0NTYsImV4cCI6MjA5MTk0MTQ1Nn0.3JrimFgk0z_yvJOzTfUPZKBKcmwwqUc19wRfxXpPYA0';
+const ADMIN_PASSWORD = 'meskerem2026';
 
-  const supabaseClient = supabase.createClient(
-    "https://hrukqjwbglnpbbmercms.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhydWtxandiZ2xucGJibWVyY21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNjU0NTYsImV4cCI6MjA5MTk0MTQ1Nn0.3JrimFgk0z_yvJOzTfUPZKBKcmwwqUc19wRfxXpPYA0"
-  );
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  async function upload(){
-    const teacher = document.getElementById("teacher").value;
-    const grade = document.getElementById("grade").value;
-    const subject = document.getElementById("subject").value;
-    const file = document.getElementById("file").files[0];
+// Initialize
+window.onload = function() {
+  loadSavedTeacher();
+  loadWorksheets();
+};
 
-    if(!teacher||!grade||!subject||!file){ alert("Fill all fields"); return; }
+function loadSavedTeacher() {
+  const saved = localStorage.getItem('teacherName');
+  if (saved) {
+    document.getElementById('teacherName').value = saved;
+  }
+}
 
-    const path = `${grade}/${subject}/${Date.now()}_${file.name}`;
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `
+    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+    <span>${message}</span>
+  `;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
 
-    const { error:uploadError } = await supabaseClient.storage
-      .from("worksheet")
-      .upload(path,file);
+async function uploadWorksheet() {
+  const teacherName = document.getElementById('teacherName').value.trim();
+  const grade = document.getElementById('gradeLevel').value;
+  const subject = document.getElementById('subject').value.trim();
+  const file = document.getElementById('fileInput').files[0];
 
-    if(uploadError){ console.log(uploadError); alert("Upload failed"); return; }
-
-    const { data:urlData } = supabaseClient.storage
-      .from("worksheet")
-      .getPublicUrl(path);
-
-    const { error:dbError } = await supabaseClient
-      .from("worksheet")
-      .insert([{
-        teacher_id:teacher,
-        grade:grade,
-        subject:subject,
-        file_url:urlData.publicUrl,
-        file_name:file.name
-      }]);
-
-    if(dbError){ console.log(dbError); alert("DB error"); return; }
-
-    alert("Uploaded!");
-    loadFiles();
+  if (!teacherName || !grade || !subject || !file) {
+    showToast('Please fill all fields and select a file', 'error');
+    return;
   }
 
-  async function loadFiles(){
-    const { data,error } = await supabaseClient
-      .from("worksheet")
-      .select("*");
+  // Save teacher name
+  localStorage.setItem('teacherName', teacherName);
 
-    if(error){ console.log(error); return; }
+  // Show loading
+  const btn = event.target;
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+  btn.disabled = true;
 
-    const list = document.getElementById("list");
-    list.innerHTML="";
+  try {
+    const fileName = `${Date.now()}_${file.name}`;
+    const filePath = `${grade}/${subject}/${fileName}`;
 
-    if(!data || data.length===0){
-      list.innerHTML="<p style='padding: 20px; text-align: center; background: #f1f9ff; border-radius: 20px;'><i class='fas fa-box-open'></i> No files yet — upload the first one!</p>";
-      document.getElementById("count").innerText = '0';
+    // Upload to Storage
+    const { error: uploadError } = await supabase.storage
+      .from('worksheet')
+      .upload(filePath, file);
+
+    if (uploadError) throw uploadError;
+
+    // Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('worksheet')
+      .getPublicUrl(filePath);
+
+    // Save to Database
+    const { error: dbError } = await supabase
+      .from('worksheet')
+      .insert([{
+        teacher_id: teacherName,
+        grade: grade,
+        subject: subject,
+        file_url: publicUrl,
+        file_name: file.name
+      }]);
+
+    if (dbError) throw dbError;
+
+    showToast('Worksheet uploaded successfully!', 'success');
+    
+    // Clear form
+    document.getElementById('subject').value = '';
+    document.getElementById('fileInput').value = '';
+    
+    // Reload list
+    loadWorksheets();
+  } catch (error) {
+    console.error('Upload error:', error);
+    showToast('Upload failed: ' + error.message, 'error');
+  } finally {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  }
+}
+
+async function loadWorksheets() {
+  const container = document.getElementById('worksheetsList');
+  container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i><p>Loading...</p></div>';
+
+  try {
+    const { data, error } = await supabase
+      .from('worksheet')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>No worksheets yet. Be the first to upload!</p>
+        </div>
+      `;
+      updateStats([]);
       return;
     }
 
-    document.getElementById("count").innerText = data.length;
+    displayWorksheets(data);
+    updateStats(data);
+  } catch (error) {
+    console.error('Load error:', error);
+    container.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>Failed to load worksheets</p>
+      </div>
+    `;
+  }
+}
 
-    data.forEach(item=>{
-      // we build a nicer file card but keep all original fields
-      const fileDiv = document.createElement('div');
-      fileDiv.className = 'file';
-      fileDiv.innerHTML = `
+function displayWorksheets(worksheets) {
+  const container = document.getElementById('worksheetsList');
+  container.innerHTML = '<div class="file-grid"></div>';
+  const grid = container.querySelector('.file-grid');
+
+  worksheets.forEach(worksheet => {
+    const card = document.createElement('div');
+    card.className = 'file-card';
+    
+    const fileIcon = getFileIcon(worksheet.file_name);
+    
+    card.innerHTML = `
+      <div class="file-header">
+        <div class="file-icon">${fileIcon}</div>
         <div class="file-info">
-          <b><i class="fas fa-file-pdf" style="color:#c52828;"></i> ${item.file_name}</b>
+          <div class="file-name">${worksheet.file_name}</div>
           <div class="file-meta">
-            <span><i class="fas fa-book"></i> ${item.subject}</span>
-            <span><i class="fas fa-layer-group"></i> Grade ${item.grade}</span>
-            <span><i class="fas fa-chalkboard-teacher"></i> ${item.teacher_id}</span>
+            <span><i class="fas fa-user"></i> ${worksheet.teacher_id}</span>
+            <span><i class="fas fa-graduation-cap"></i> ${worksheet.grade}</span>
+            <span><i class="fas fa-book"></i> ${worksheet.subject}</span>
           </div>
         </div>
-        <div class="file-actions">
-          <a href="${item.file_url}" target="_blank"><i class="fas fa-external-link-alt"></i> Open</a>
-          <button onclick="deleteFile('${item.id}')"><i class="fas fa-trash"></i> Delete</button>
-        </div>
-      `;
-      list.appendChild(fileDiv);
-    });
+      </div>
+      <div class="file-actions">
+        <button class="btn btn-small" onclick="window.open('${worksheet.file_url}', '_blank')">
+          <i class="fas fa-eye"></i> View
+        </button>
+        <button class="btn btn-small btn-secondary" onclick="downloadFile('${worksheet.file_url}', '${worksheet.file_name}')">
+          <i class="fas fa-download"></i> Download
+        </button>
+        <button class="btn btn-small btn-danger" onclick="deleteWorksheet(${worksheet.id})">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+      </div>
+    `;
+    
+    grid.appendChild(card);
+  });
+}
+
+function getFileIcon(filename) {
+  const ext = filename.split('.').pop().toLowerCase();
+  const icons = {
+    pdf: '<i class="fas fa-file-pdf"></i>',
+    doc: '<i class="fas fa-file-word"></i>',
+    docx: '<i class="fas fa-file-word"></i>',
+    ppt: '<i class="fas fa-file-powerpoint"></i>',
+    pptx: '<i class="fas fa-file-powerpoint"></i>',
+    jpg: '<i class="fas fa-file-image"></i>',
+    jpeg: '<i class="fas fa-file-image"></i>',
+    png: '<i class="fas fa-file-image"></i>',
+    txt: '<i class="fas fa-file-alt"></i>'
+  };
+  return icons[ext] || '<i class="fas fa-file"></i>';
+}
+
+function downloadFile(url, filename) {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.target = '_blank';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+async function deleteWorksheet(id) {
+  if (!confirm('Are you sure you want to delete this worksheet?')) return;
+
+  try {
+    const { error } = await supabase
+      .from('worksheet')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
+    showToast('Worksheet deleted successfully!', 'success');
+    loadWorksheets();
+  } catch (error) {
+    console.error('Delete error:', error);
+    showToast('Failed to delete worksheet', 'error');
+  }
+}
+
+function updateStats(worksheets) {
+  const totalFiles = worksheets.length;
+  const uniqueTeachers = new Set(worksheets.map(w => w.teacher_id)).size;
+  const uniqueGrades = new Set(worksheets.map(w => w.grade)).size;
+
+  document.getElementById('totalFiles').textContent = totalFiles;
+  document.getElementById('totalTeachers').textContent = uniqueTeachers;
+  document.getElementById('totalGrades').textContent = uniqueGrades;
+}
+
+function toggleAdmin() {
+  const panel = document.getElementById('adminPanel');
+  panel.classList.toggle('active');
+}
+
+async function clearAllWorksheets() {
+  const password = document.getElementById('adminPassword').value;
+  
+  if (password !== ADMIN_PASSWORD) {
+    showToast('Invalid admin password!', 'error');
+    return;
   }
 
-  async function deleteFile(id){
-    if(!confirm("Delete this file permanently?")) return;
-    await supabaseClient.from("worksheet").delete().eq("id",id);
-    loadFiles();
-  }
+  if (!confirm('⚠️ WARNING: This will delete ALL worksheets permanently! Are you absolutely sure?')) return;
+  if (!confirm('FINAL WARNING: This action cannot be undone! Click OK to proceed.')) return;
 
-  function loginAdmin(){
-    const pass = document.getElementById("adminPass").value;
-    if(pass==="meskerem"){
-      document.getElementById("adminArea").style.display="block";
-      alert("Admin unlocked 🔓");
-    }else{
-      alert("Wrong password");
-    }
-  }
+  try {
+    const { error } = await supabase
+      .from('worksheet')
+      .delete()
+      .neq('id', 0);
 
-  async function wipeAll(){
-    if(!confirm("‼️ DELETE EVERY SINGLE WORKSHEET? This cannot be undone.")) return;
-    await supabaseClient.from("worksheet").delete().neq("id",0);
-    loadFiles();
-  }
+    if (error) throw error;
 
-  // initial load
-  loadFiles();
+    showToast('All worksheets have been cleared', 'success');
+    document.getElementById('adminPassword').value = '';
+    document.getElementById('adminPanel').classList.remove('active');
+    loadWorksheets();
+  } catch (error) {
+    console.error('Clear error:', error);
+    showToast('Failed to clear worksheets', 'error');
+  }
+}
 </script>
 
-<!-- subtle: preserve exact ID names & logic, no functional changes -->
 </body>
 </html>
