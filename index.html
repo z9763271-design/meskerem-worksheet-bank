@@ -1,750 +1,676 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meskerem Primary | Worksheet Bank</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meskerem Primary · Supabase SQL Migration</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<!-- Fonts & Icons -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+      padding: 40px 24px;
+      color: #e2e8f0;
+    }
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  padding: 20px;
-}
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
+    .header h1 i {
+      color: #60a5fa;
+      font-size: 2.2rem;
+    }
 
-/* Header */
-.header {
-  text-align: center;
-  margin-bottom: 30px;
-  animation: slideDown 0.5s ease;
-}
+    .badge {
+      display: inline-block;
+      background: #3b82f6;
+      color: white;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 12px;
+    }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    /* Cards */
+    .card {
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 28px;
+      margin-bottom: 28px;
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+    }
 
-h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  color: white;
-  text-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
 
-h1 i {
-  font-size: 2.5rem;
-}
+    .card-header i {
+      font-size: 1.8rem;
+      color: #60a5fa;
+    }
 
-.subtitle {
-  color: rgba(255,255,255,0.9);
-  font-size: 1.2rem;
-  margin-top: 10px;
-}
+    .card-header h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
 
-/* Cards */
-.card {
-  background: white;
-  border-radius: 20px;
-  padding: 30px;
-  margin-bottom: 25px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  animation: fadeIn 0.6s ease;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.2);
-}
+    /* Info Grid */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    .info-item {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 16px 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(71, 85, 105, 0.3);
+    }
 
-h2 {
-  color: #333;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.8rem;
-}
+    .info-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
 
-h2 i {
-  color: #667eea;
-}
+    .info-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
 
-/* Forms */
-.form-group {
-  margin-bottom: 20px;
-}
+    .info-value code {
+      background: #1e293b;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
 
-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #555;
-  font-weight: 500;
-}
+    /* Code Block */
+    .code-wrapper {
+      position: relative;
+      margin: 20px 0;
+    }
 
-input, select {
-  width: 100%;
-  padding: 14px 16px;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.3s;
-  font-family: 'Inter', sans-serif;
-}
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: #1e293b;
+      border-radius: 12px 12px 0 0;
+      border: 1px solid #334155;
+      border-bottom: none;
+    }
 
-input:focus, select:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
+    .code-lang {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
 
-input[type="file"] {
-  padding: 12px;
-  cursor: pointer;
-}
+    .copy-btn {
+      background: #334155;
+      color: #e2e8f0;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      border: 1px solid #475569;
+    }
 
-input[type="file"]::file-selector-button {
-  background: #667eea;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-right: 15px;
-  font-weight: 600;
-}
+    .copy-btn:hover {
+      background: #475569;
+    }
 
-/* Buttons */
-.btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 16px 24px;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-}
+    .copy-btn.copied {
+      background: #10b981;
+      color: white;
+      border-color: #34d399;
+    }
 
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
-}
+    pre {
+      margin: 0;
+      padding: 24px;
+      background: #0d1117;
+      border-radius: 0 0 12px 12px;
+      border: 1px solid #334155;
+      overflow-x: auto;
+    }
 
-.btn:active {
-  transform: translateY(0);
-}
+    code {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+    }
 
-.btn-secondary {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  box-shadow: 0 10px 20px rgba(240, 147, 251, 0.3);
-}
+    /* Policy Table */
+    .policy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
 
-.btn-danger {
-  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-  box-shadow: 0 10px 20px rgba(250, 112, 154, 0.3);
-}
+    .policy-table th {
+      text-align: left;
+      padding: 14px 16px;
+      background: #1e293b;
+      color: #94a3b8;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #334155;
+    }
 
-/* File Grid */
-.file-grid {
-  display: grid;
-  gap: 15px;
-  margin-top: 20px;
-}
+    .policy-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #334155;
+      color: #cbd5e1;
+    }
 
-.file-card {
-  background: #f8f9fa;
-  border-radius: 15px;
-  padding: 20px;
-  transition: all 0.3s;
-  border: 1px solid #e0e0e0;
-  animation: fadeIn 0.5s ease;
-}
+    .policy-table tr:last-child td {
+      border-bottom: none;
+    }
 
-.file-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  border-color: #667eea;
-}
+    .badge-success {
+      background: #10b98120;
+      color: #34d399;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid #10b98140;
+    }
 
-.file-header {
-  display: flex;
-  align-items: start;
-  gap: 12px;
-  margin-bottom: 12px;
-}
+    .badge-warning {
+      background: #f59e0b20;
+      color: #fbbf24;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid #f59e0b40;
+    }
 
-.file-icon {
-  font-size: 2rem;
-  color: #667eea;
-}
+    /* Steps */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
 
-.file-info {
-  flex: 1;
-}
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
 
-.file-name {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #333;
-  margin-bottom: 5px;
-}
+    .step-number {
+      width: 36px;
+      height: 36px;
+      background: #3b82f6;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
 
-.file-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  color: #666;
-  font-size: 0.9rem;
-  margin: 10px 0;
-}
+    .step-content {
+      flex: 1;
+    }
 
-.file-meta span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
+    .step-content h4 {
+      color: #f1f5f9;
+      margin-bottom: 6px;
+    }
 
-.file-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
+    .step-content p {
+      color: #94a3b8;
+      line-height: 1.6;
+    }
 
-.btn-small {
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  border-radius: 8px;
-  flex: 1;
-}
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
 
-/* Admin Section */
-.admin-section {
-  margin-top: 30px;
-  padding-top: 30px;
-  border-top: 2px dashed #e0e0e0;
-}
+    .footer a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
 
-.admin-toggle {
-  background: none;
-  border: 2px dashed #999;
-  color: #666;
-  padding: 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  transition: all 0.3s;
-}
+    .footer a:hover {
+      text-decoration: underline;
+    }
 
-.admin-toggle:hover {
-  border-color: #667eea;
-  color: #667eea;
-}
-
-.admin-panel {
-  display: none;
-  margin-top: 20px;
-}
-
-.admin-panel.active {
-  display: block;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.stat-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: 800;
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  opacity: 0.9;
-  margin-top: 5px;
-}
-
-/* Loading */
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: #666;
-}
-
-.loading i {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  color: #667eea;
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: 40px;
-  color: #999;
-}
-
-.empty-state i {
-  font-size: 4rem;
-  margin-bottom: 15px;
-  opacity: 0.5;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  h1 { font-size: 2rem; }
-  .file-meta { flex-direction: column; gap: 5px; }
-  .file-actions { flex-direction: column; }
-}
-
-/* Toast Notifications */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: white;
-  padding: 16px 24px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  animation: slideIn 0.3s ease;
-  z-index: 1000;
-}
-
-@keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-.toast.success { border-left: 4px solid #4caf50; }
-.toast.error { border-left: 4px solid #f44336; }
-.toast i { font-size: 1.5rem; }
-.toast.success i { color: #4caf50; }
-.toast.error i { color: #f44336; }
-</style>
+    /* Responsive */
+    @media (max-width: 640px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      pre {
+        padding: 16px;
+      }
+      
+      code {
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
+  
   <!-- Header -->
   <div class="header">
     <h1>
-      <i class="fas fa-school"></i>
-      Meskerem Primary
-      <i class="fas fa-book"></i>
+      <i class="fas fa-database"></i>
+      Meskerem Primary · Subjects Table Migration
+      <i class="fas fa-shield-alt"></i>
     </h1>
-    <div class="subtitle">Worksheet Bank • Teacher Portal</div>
+    <span class="badge">
+      <i class="fas fa-tag"></i> Supabase SQL · Row Level Security
+    </span>
   </div>
 
-  <!-- Upload Card -->
+  <!-- Overview Card -->
   <div class="card">
-    <h2>
-      <i class="fas fa-cloud-upload-alt"></i>
-      Upload New Worksheet
-    </h2>
+    <div class="card-header">
+      <i class="fas fa-info-circle"></i>
+      <h2>Migration Overview</h2>
+    </div>
     
-    <div class="form-group">
-      <label><i class="fas fa-user"></i> Teacher Name</label>
-      <input type="text" id="teacherName" placeholder="Enter your full name" autocomplete="off">
-    </div>
-
-    <div class="form-group">
-      <label><i class="fas fa-graduation-cap"></i> Grade Level</label>
-      <select id="gradeLevel">
-        <option value="">Select Grade</option>
-        <option value="Grade 1">Grade 1</option>
-        <option value="Grade 2">Grade 2</option>
-        <option value="Grade 3">Grade 3</option>
-        <option value="Grade 4">Grade 4</option>
-        <option value="Grade 5">Grade 5</option>
-        <option value="Grade 6">Grade 6</option>
-        <option value="Grade 7">Grade 7</option>
-        <option value="Grade 8">Grade 8</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label><i class="fas fa-book-open"></i> Subject</label>
-      <input type="text" id="subject" placeholder="e.g., Mathematics, English, Science">
-    </div>
-
-    <div class="form-group">
-      <label><i class="fas fa-file"></i> Select File</label>
-      <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.txt">
-    </div>
-
-    <button class="btn" onclick="uploadWorksheet()">
-      <i class="fas fa-upload"></i>
-      Upload Worksheet
-    </button>
-  </div>
-
-  <!-- Worksheets List Card -->
-  <div class="card">
-    <h2>
-      <i class="fas fa-folder-open"></i>
-      Available Worksheets
-      <span style="margin-left: auto; font-size: 0.9rem;">
-        <i class="fas fa-sync-alt" onclick="loadWorksheets()" style="cursor: pointer;"></i>
-      </span>
-    </h2>
-    
-    <div id="worksheetsList">
-      <div class="loading">
-        <i class="fas fa-spinner fa-spin"></i>
-        <p>Loading worksheets...</p>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-label"><i class="far fa-calendar-alt"></i> Created</div>
+        <div class="info-value">April 2026</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label"><i class="fas fa-table"></i> Table Name</div>
+        <div class="info-value"><code>public.subjects</code></div>
+      </div>
+      <div class="info-item">
+        <div class="info-label"><i class="fas fa-lock"></i> RLS</div>
+        <div class="info-value"><span class="badge-success">ENABLED</span></div>
+      </div>
+      <div class="info-item">
+        <div class="info-label"><i class="fas fa-key"></i> Policies</div>
+        <div class="info-value">4 Policies</div>
       </div>
     </div>
 
-    <!-- Admin Section -->
-    <div class="admin-section">
-      <button class="admin-toggle" onclick="toggleAdmin()">
-        <i class="fas fa-shield-alt"></i>
-        Admin Panel
-      </button>
-      
-      <div class="admin-panel" id="adminPanel">
-        <h3 style="margin-bottom: 20px;">
-          <i class="fas fa-crown"></i>
-          Administrator Controls
-        </h3>
-        
-        <div class="stats">
-          <div class="stat-card">
-            <div class="stat-number" id="totalFiles">0</div>
-            <div class="stat-label">Total Files</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="totalTeachers">0</div>
-            <div class="stat-label">Teachers</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="totalGrades">0</div>
-            <div class="stat-label">Grades</div>
-          </div>
-        </div>
+    <p style="color: #94a3b8; line-height: 1.7; margin-top: 8px;">
+      This migration creates the <code>subjects</code> table for the Meskerem Primary e-School system.
+      It includes comprehensive Row Level Security (RLS) policies that control access based on user roles.
+      The table stores subject information with grade levels and department associations.
+    </p>
+  </div>
 
-        <div class="form-group">
-          <label><i class="fas fa-key"></i> Admin Password</label>
-          <input type="password" id="adminPassword" placeholder="Enter admin password">
+  <!-- SQL Code Card -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-code"></i>
+      <h2>SQL Migration Script</h2>
+    </div>
+    
+    <div class="code-wrapper">
+      <div class="code-header">
+        <div class="code-lang">
+          <i class="fas fa-file-code"></i>
+          <span>migration_subjects.sql</span>
         </div>
-
-        <button class="btn btn-danger" onclick="clearAllWorksheets()">
-          <i class="fas fa-trash-alt"></i>
-          Clear All Worksheets
+        <button class="copy-btn" onclick="copySQL()">
+          <i class="far fa-copy"></i>
+          Copy to Clipboard
         </button>
       </div>
+      <pre><code class="language-sql" id="sqlCode">BEGIN;
+
+-- Create subjects table
+CREATE TABLE IF NOT EXISTS public.subjects (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  grade_level TEXT,
+  department TEXT,
+  description TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.subjects ENABLE ROW LEVEL SECURITY;
+
+-- (Re)create policies cleanly
+DROP POLICY IF EXISTS "Anyone can view subjects" ON public.subjects;
+DROP POLICY IF EXISTS "Authenticated users can add subjects" ON public.subjects;
+DROP POLICY IF EXISTS "Admins can update subjects" ON public.subjects;
+DROP POLICY IF EXISTS "Admins can delete subjects" ON public.subjects;
+
+-- Allow anyone to read
+CREATE POLICY "Anyone can view subjects" 
+  ON public.subjects
+  FOR SELECT
+  TO PUBLIC
+  USING (true);
+
+-- Allow authenticated users to insert
+CREATE POLICY "Authenticated users can add subjects"
+  ON public.subjects
+  FOR INSERT
+  TO authenticated
+  WITH CHECK ((SELECT auth.uid()) IS NOT NULL);
+
+-- Allow admins to update
+CREATE POLICY "Admins can update subjects"
+  ON public.subjects
+  FOR UPDATE
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1
+      FROM public.teachers t
+      WHERE t.id = (SELECT auth.uid())
+        AND t.is_admin = true
+    )
+  )
+  WITH CHECK (
+    EXISTS (
+      SELECT 1
+      FROM public.teachers t
+      WHERE t.id = (SELECT auth.uid())
+        AND t.is_admin = true
+    )
+  );
+
+-- Allow admins to delete
+CREATE POLICY "Admins can delete subjects"
+  ON public.subjects
+  FOR DELETE
+  TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1
+      FROM public.teachers t
+      WHERE t.id = (SELECT auth.uid())
+        AND t.is_admin = true
+    )
+  );
+
+COMMIT;</code></pre>
     </div>
   </div>
+
+  <!-- Policies Summary Card -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-shield-halved"></i>
+      <h2>RLS Policies Summary</h2>
+    </div>
+
+    <table class="policy-table">
+      <thead>
+        <tr>
+          <th>Policy Name</th>
+          <th>Operation</th>
+          <th>Target</th>
+          <th>Access Condition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>Anyone can view subjects</code></td>
+          <td><span class="badge-success">SELECT</span></td>
+          <td>PUBLIC</td>
+          <td>Always true (public read)</td>
+        </tr>
+        <tr>
+          <td><code>Authenticated users can add subjects</code></td>
+          <td><span class="badge-warning">INSERT</span></td>
+          <td>authenticated</td>
+          <td>User must be logged in</td>
+        </tr>
+        <tr>
+          <td><code>Admins can update subjects</code></td>
+          <td><span class="badge-warning">UPDATE</span></td>
+          <td>authenticated</td>
+          <td>User must have <code>is_admin = true</code></td>
+        </tr>
+        <tr>
+          <td><code>Admins can delete subjects</code></td>
+          <td><span class="badge-warning">DELETE</span></td>
+          <td>authenticated</td>
+          <td>User must have <code>is_admin = true</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Implementation Steps -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-list-check"></i>
+      <h2>How to Apply This Migration</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Open Supabase Dashboard</h4>
+          <p>Navigate to your project's SQL Editor at <code>https://app.supabase.com/project/[your-project-id]/sql</code></p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Create New Query</h4>
+          <p>Click "New query" and give it a name like "create_subjects_table"</p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Paste the SQL</h4>
+          <p>Copy the SQL code above and paste it into the editor</p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h4>Run the Migration</h4>
+          <p>Click "Run" or press <code>Ctrl/Cmd + Enter</code> to execute the script</p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <h4>Verify Success</h4>
+          <p>Check the results panel for a success message. The table should now appear in the Table Editor</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prerequisites Card -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-triangle-exclamation"></i>
+      <h2>Prerequisites & Dependencies</h2>
+    </div>
+
+    <div style="color: #cbd5e1; line-height: 1.8;">
+      <p style="margin-bottom: 16px;">
+        <i class="fas fa-check-circle" style="color: #34d399; margin-right: 8px;"></i>
+        <strong>Required Table:</strong> This migration depends on the <code>public.teachers</code> table existing with the following structure:
+      </p>
+      
+      <div style="background: #0f172a; padding: 16px; border-radius: 12px; margin: 16px 0;">
+        <code style="color: #a78bfa;">public.teachers</code>
+        <ul style="margin-top: 12px; margin-left: 24px; color: #94a3b8;">
+          <li><code>id UUID PRIMARY KEY</code> (should match <code>auth.uid()</code>)</li>
+          <li><code>is_admin BOOLEAN DEFAULT false</code></li>
+          <li><code>email TEXT</code></li>
+          <li><code>full_name TEXT</code></li>
+        </ul>
+      </div>
+
+      <p>
+        <i class="fas fa-lightbulb" style="color: #fbbf24; margin-right: 8px;"></i>
+        <strong>Note:</strong> If the <code>teachers</code> table doesn't exist yet, create it first or modify the policy conditions accordingly.
+      </p>
+    </div>
+  </div>
+
+  <!-- Testing Card -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-flask"></i>
+      <h2>Testing the Policies</h2>
+    </div>
+
+    <div style="color: #cbd5e1; line-height: 1.8;">
+      <p>After applying the migration, test the RLS policies with these queries:</p>
+      
+      <div style="margin: 20px 0;">
+        <h4 style="color: #e2e8f0; margin-bottom: 10px;">1. Public read (should work without auth)</h4>
+        <pre style="padding: 12px; background: #0f172a; border-radius: 8px;"><code>SELECT * FROM public.subjects;</code></pre>
+      </div>
+
+      <div style="margin: 20px 0;">
+        <h4 style="color: #e2e8f0; margin-bottom: 10px;">2. Insert as authenticated user</h4>
+        <pre style="padding: 12px; background: #0f172a; border-radius: 8px;"><code>INSERT INTO public.subjects (name, grade_level, department) 
+VALUES ('Mathematics', '5', 'STEM');</code></pre>
+      </div>
+
+      <div style="margin: 20px 0;">
+        <h4 style="color: #e2e8f0; margin-bottom: 10px;">3. Update as admin (requires is_admin = true)</h4>
+        <pre style="padding: 12px; background: #0f172a; border-radius: 8px;"><code>UPDATE public.subjects 
+SET description = 'Advanced mathematics curriculum' 
+WHERE name = 'Mathematics';</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>
+      <i class="far fa-copyright"></i> 2026 Meskerem Primary School · 
+      <a href="https://github.com" target="_blank">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+      · Designed by Mr Zenaneh
+    </p>
+    <p style="margin-top: 8px; font-size: 0.85rem;">
+      <i class="fas fa-database"></i> Supabase Migration · Row Level Security Enabled
+    </p>
+  </div>
+
 </div>
 
 <script>
-// SUPABASE CONFIGURATION
-const SUPABASE_URL = 'https://hrukqjwbglnpbbmercms.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhydWtxandiZ2xucGJibWVyY21zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNjU0NTYsImV4cCI6MjA5MTk0MTQ1Nn0.3JrimFgk0z_yvJOzTfUPZKBKcmwwqUc19wRfxXpPYA0';
-const ADMIN_PASSWORD = 'meskerem2026';
+  // Initialize syntax highlighting
+  hljs.highlightAll();
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// Initialize
-window.onload = function() {
-  loadSavedTeacher();
-  loadWorksheets();
-};
-
-function loadSavedTeacher() {
-  const saved = localStorage.getItem('teacherName');
-  if (saved) {
-    document.getElementById('teacherName').value = saved;
-  }
-}
-
-function showToast(message, type = 'success') {
-  const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-  toast.innerHTML = `
-    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-    <span>${message}</span>
-  `;
-  document.body.appendChild(toast);
-  
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
-}
-
-async function uploadWorksheet() {
-  const teacherName = document.getElementById('teacherName').value.trim();
-  const grade = document.getElementById('gradeLevel').value;
-  const subject = document.getElementById('subject').value.trim();
-  const file = document.getElementById('fileInput').files[0];
-
-  if (!teacherName || !grade || !subject || !file) {
-    showToast('Please fill all fields and select a file', 'error');
-    return;
-  }
-
-  // Save teacher name
-  localStorage.setItem('teacherName', teacherName);
-
-  // Show loading
-  const btn = event.target;
-  const originalText = btn.innerHTML;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-  btn.disabled = true;
-
-  try {
-    const fileName = `${Date.now()}_${file.name}`;
-    const filePath = `${grade}/${subject}/${fileName}`;
-
-    // Upload to Storage
-    const { error: uploadError } = await supabase.storage
-      .from('worksheet')
-      .upload(filePath, file);
-
-    if (uploadError) throw uploadError;
-
-    // Get public URL
-    const { data: { publicUrl } } = supabase.storage
-      .from('worksheet')
-      .getPublicUrl(filePath);
-
-    // Save to Database
-    const { error: dbError } = await supabase
-      .from('worksheet')
-      .insert([{
-        teacher_id: teacherName,
-        grade: grade,
-        subject: subject,
-        file_url: publicUrl,
-        file_name: file.name
-      }]);
-
-    if (dbError) throw dbError;
-
-    showToast('Worksheet uploaded successfully!', 'success');
+  // Copy SQL function
+  function copySQL() {
+    const sqlCode = document.getElementById('sqlCode').innerText;
+    const copyBtn = document.querySelector('.copy-btn');
     
-    // Clear form
-    document.getElementById('subject').value = '';
-    document.getElementById('fileInput').value = '';
-    
-    // Reload list
-    loadWorksheets();
-  } catch (error) {
-    console.error('Upload error:', error);
-    showToast('Upload failed: ' + error.message, 'error');
-  } finally {
-    btn.innerHTML = originalText;
-    btn.disabled = false;
+    navigator.clipboard.writeText(sqlCode).then(() => {
+      copyBtn.classList.add('copied');
+      copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+        copyBtn.innerHTML = '<i class="far fa-copy"></i> Copy to Clipboard';
+      }, 2000);
+    }).catch(err => {
+      alert('Failed to copy: ' + err);
+    });
   }
-}
 
-async function loadWorksheets() {
-  const container = document.getElementById('worksheetsList');
-  container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i><p>Loading...</p></div>';
-
-  try {
-    const { data, error } = await supabase
-      .from('worksheet')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) throw error;
-
-    if (!data || data.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state">
-          <i class="fas fa-inbox"></i>
-          <p>No worksheets yet. Be the first to upload!</p>
-        </div>
-      `;
-      updateStats([]);
-      return;
+  // Add keyboard shortcut for copy
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+      const selection = window.getSelection().toString();
+      if (selection.includes('CREATE TABLE')) {
+        copySQL();
+        e.preventDefault();
+      }
     }
-
-    displayWorksheets(data);
-    updateStats(data);
-  } catch (error) {
-    console.error('Load error:', error);
-    container.innerHTML = `
-      <div class="empty-state">
-        <i class="fas fa-exclamation-triangle"></i>
-        <p>Failed to load worksheets</p>
-      </div>
-    `;
-  }
-}
-
-function displayWorksheets(worksheets) {
-  const container = document.getElementById('worksheetsList');
-  container.innerHTML = '<div class="file-grid"></div>';
-  const grid = container.querySelector('.file-grid');
-
-  worksheets.forEach(worksheet => {
-    const card = document.createElement('div');
-    card.className = 'file-card';
-    
-    const fileIcon = getFileIcon(worksheet.file_name);
-    
-    card.innerHTML = `
-      <div class="file-header">
-        <div class="file-icon">${fileIcon}</div>
-        <div class="file-info">
-          <div class="file-name">${worksheet.file_name}</div>
-          <div class="file-meta">
-            <span><i class="fas fa-user"></i> ${worksheet.teacher_id}</span>
-            <span><i class="fas fa-graduation-cap"></i> ${worksheet.grade}</span>
-            <span><i class="fas fa-book"></i> ${worksheet.subject}</span>
-          </div>
-        </div>
-      </div>
-      <div class="file-actions">
-        <button class="btn btn-small" onclick="window.open('${worksheet.file_url}', '_blank')">
-          <i class="fas fa-eye"></i> View
-        </button>
-        <button class="btn btn-small btn-secondary" onclick="downloadFile('${worksheet.file_url}', '${worksheet.file_name}')">
-          <i class="fas fa-download"></i> Download
-        </button>
-        <button class="btn btn-small btn-danger" onclick="deleteWorksheet(${worksheet.id})">
-          <i class="fas fa-trash"></i> Delete
-        </button>
-      </div>
-    `;
-    
-    grid.appendChild(card);
   });
-}
-
-function getFileIcon(filename) {
-  const ext = filename.split('.').pop().toLowerCase();
-  const icons = {
-    pdf: '<i class="fas fa-file-pdf"></i>',
-    doc: '<i class="fas fa-file-word"></i>',
-    docx: '<i class="fas fa-file-word"></i>',
-    ppt: '<i class="fas fa-file-powerpoint"></i>',
-    pptx: '<i class="fas fa-file-powerpoint"></i>',
-    jpg: '<i class="fas fa-file-image"></i>',
-    jpeg: '<i class="fas fa-file-image"></i>',
-    png: '<i class="fas fa-file-image"></i>',
-    txt: '<i class="fas fa-file-alt"></i>'
-  };
-  return icons[ext] || '<i class="fas fa-file"></i>';
-}
-
-function downloadFile(url, filename) {
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.target = '_blank';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
-async function deleteWorksheet(id) {
-  if (!confirm('Are you sure you want to delete this worksheet?')) return;
-
-  try {
-    const { error } = await supabase
-      .from('worksheet')
-      .delete()
-      .eq('id', id);
-
-    if (error) throw error;
-
-    showToast('Worksheet deleted successfully!', 'success');
-    loadWorksheets();
-  } catch (error) {
-    console.error('Delete error:', error);
-    showToast('Failed to delete worksheet', 'error');
-  }
-}
-
-function updateStats(worksheets) {
-  const totalFiles = worksheets.length;
-  const uniqueTeachers = new Set(worksheets.map(w => w.teacher_id)).size;
-  const uniqueGrades = new Set(worksheets.map(w => w.grade)).size;
-
-  document.getElementById('totalFiles').textContent = totalFiles;
-  document.getElementById('totalTeachers').textContent = uniqueTeachers;
-  document.getElementById('totalGrades').textContent = uniqueGrades;
-}
-
-function toggleAdmin() {
-  const panel = document.getElementById('adminPanel');
-  panel.classList.toggle('active');
-}
-
-async function clearAllWorksheets() {
-  const password = document.getElementById('adminPassword').value;
-  
-  if (password !== ADMIN_PASSWORD) {
-    showToast('Invalid admin password!', 'error');
-    return;
-  }
-
-  if (!confirm('⚠️ WARNING: This will delete ALL worksheets permanently! Are you absolutely sure?')) return;
-  if (!confirm('FINAL WARNING: This action cannot be undone! Click OK to proceed.')) return;
-
-  try {
-    const { error } = await supabase
-      .from('worksheet')
-      .delete()
-      .neq('id', 0);
-
-    if (error) throw error;
-
-    showToast('All worksheets have been cleared', 'success');
-    document.getElementById('adminPassword').value = '';
-    document.getElementById('adminPanel').classList.remove('active');
-    loadWorksheets();
-  } catch (error) {
-    console.error('Clear error:', error);
-    showToast('Failed to clear worksheets', 'error');
-  }
-}
 </script>
 
 </body>
